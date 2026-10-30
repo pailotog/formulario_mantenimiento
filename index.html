@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Informe de Servicio Técnico · Impresoras</title>
+<link rel="stylesheet" href="/static/estilo.css">
+</head>
+<body>
+
+<header class="barra">
+  <div class="marca">
+    <span class="logo">F-TIC-IMPRE</span>
+    <span class="sub">Revisión Técnico de Impresoras · MiRed IPS</span>
+  </div>
+  <nav class="acciones">
+    <button class="btn" id="btn-nuevo">Nuevo</button>
+    <button class="btn primario" id="btn-pdf">Generar PDF</button>
+  </nav>
+</header>
+
+<main class="contenido">
+
+  <section class="formulario">
+    <nav class="pestanas" role="tablist">
+      <button class="pest activa" data-panel="datos">Datos del Equipo</button>
+      <button class="pest" data-panel="actividades">Mantenimiento</button>
+      <button class="pest" data-panel="cierre">Cierre y Repuestos</button>
+    </nav>
+
+    <!-- PANEL 1: DATOS -->
+    <div class="panel activo" id="panel-datos">
+      <div class="bloque">
+        <h2>Identificación de la Impresora</h2>
+        <div class="rejilla">
+          <label class="campo"><span>N° Activo Fijo (AF)</span><input class="control" data-campo="n_af"></label>
+          <label class="campo"><span>Fecha Servicio</span><input class="control" data-campo="fecha" placeholder="dd/mm/aaaa"></label>
+          <label class="campo"><span>Ciudad / Sede</span><input class="control" data-campo="sede"></label>
+          
+          <label class="campo"><span>Tecnología</span>
+            <select class="control" data-campo="tecnologia" id="sel-tecnologia">
+              <option value="laser">Láser (Monocromática / Color)</option>
+              <option value="tinta">Inyección de Tinta / Sistema Continuo</option>
+              <option value="matricial">Matricial / Térmica</option>
+            </select>
+          </label>
+
+          <label class="campo"><span>Marca</span>
+            <select class="control" data-campo="marca">
+              <option value="">— Seleccione —</option>
+              <option value="hp">HP</option>
+              <option value="epson">Epson</option>
+              <option value="canon">Canon</option>
+              <option value="brother">Brother</option>
+              <option value="lexmark">Lexmark</option>
+              <option value="ricoh">Ricoh</option>
+              <option value="kyocera">Kyocera</option>
+              <option value="otra">Otra Marca</option>
+            </select>
+          </label>
+
+          <label class="campo"><span>Modelo</span><input class="control" data-campo="modelo"></label>
+          <label class="campo"><span>N° Serial</span><input class="control" data-campo="serial"></label>
+          <label class="campo"><span>Contador Impresiones</span><input class="control" type="number" data-campo="contador" placeholder="Total páginas"></label>
+          <label class="campo"><span>Tipo de Conexión</span><input class="control" data-campo="conexion" placeholder="USB / Red LAN / Wi-Fi"></label>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h2>Tipo de servicio</h2>
+        <div class="fila radios" data-grupo="tipo_servicio">
+          <label><input type="radio" name="tipo_servicio" value="preventivo" checked> Preventivo</label>
+          <label><input type="radio" name="tipo_servicio" value="correctivo"> Correctivo (Falla)</label>
+          <label><input type="radio" name="tipo_servicio" value="instalacion"> Instalación / Cambio de Consumibles</label>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h2>Reporte de falla inicial</h2>
+        <div class="fila radios" data-grupo="reporte_falla">
+          <label><input type="radio" name="reporte_falla" value="si"> Sí presenta falla</label>
+          <label><input type="radio" name="reporte_falla" value="no" checked> No (Mantenimiento de rutina)</label>
+        </div>
+        <label class="campo"><span>Síntoma reportado</span>
+          <textarea class="control" data-campo="falla_cual" rows="2" placeholder="Ej: Atascos constantes, rayas en la hoja, no enciende..."></textarea></label>
+      </div>
+    </div>
+
+    <!-- PANEL 2: ACTIVIDADES -->
+    <div class="panel" id="panel-actividades">
+      <div class="bloque">
+        <h2>Revisión y Limpieza de Hardware (Físico)</h2>
+        <div class="tabla-envoltura">
+          <table class="tabla" id="tabla-hardware">
+            <thead>
+              <tr><th class="col-act">Componente / Actividad</th><th class="col-x">Limpieza</th><th class="col-x">Calibración</th>
+                  <th class="col-x">Cambio</th><th>Observaciones específicas</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h2>Pruebas Lógicas y Conectividad (Software / Firmware)</h2>
+        <div class="tabla-envoltura">
+          <table class="tabla" id="tabla-software">
+            <thead>
+              <tr><th class="col-act">Prueba Realizada</th><th class="col-x">Correcto</th><th class="col-x">Fallo</th><th>Observación</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 3: CIERRE -->
+    <div class="panel" id="panel-cierre">
+      <div class="bloque">
+        <h2>Consumibles o Repuestos Remplazados (Tóner, Tintas, Kits)</h2>
+        <div class="tabla-envoltura">
+          <table class="tabla" id="tabla-partes">
+            <thead>
+              <tr><th>Referencia / Código</th><th>Descripción de la Parte</th><th class="col-x">Cantidad</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input class="control mini" placeholder="Ej: TN-450 / L3110 Blk"></td>
+                <td><input class="control mini" placeholder="Ej: Cartucho Tóner Negro / Botella Tinta"></td>
+                <td class="col-x"><input type="number" class="control mini" style="width:60px" value="1"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h2>Diagnóstico Técnico y Trabajos Realizados</h2>
+        <textarea class="control" data-campo="trabajos" rows="4"
+                  placeholder="Detalla los procedimientos realizados (Ej: Limpieza de almohadillas, purgado de mangueras, cambio de rodillo de presión, etc.)"></textarea>
+      </div>
+
+      <div class="bloque">
+        <h2>Firmas de Conformidad</h2>
+        <div class="rejilla">
+          <div class="campo">
+            <span>Firma del Técnico</span>
+            <input type="file" accept="image/*" class="control" id="firma-prof">
+            <img id="prev-firma-prof" alt="" style="max-height:60px;max-width:100%;margin-top:6px;border:1px solid #ccc;border-radius:4px;padding:2px;">
+            <button class="btn mini" id="btn-borrar-firma-prof" type="button">Quitar</button>
+          </div>
+          <div class="campo">
+            <span>Firma del Usuario Solicitante</span>
+            <input type="file" accept="image/*" class="control" id="firma-recib">
+            <img id="prev-firma-recib" alt="" style="max-height:60px;max-width:100%;margin-top:6px;border:1px solid #ccc;border-radius:4px;padding:2px;">
+            <button class="btn mini" id="btn-borrar-firma-recib" type="button">Quitar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h2>Estado Final del Equipo</h2>
+        <div class="rejilla">
+          <div class="campo">
+            <span>¿Imprimiendo Correctamente?</span>
+            <div class="fila radios" data-grupo="equipo_funciona">
+              <label><input type="radio" name="equipo_funciona" value="si" checked> Sí</label>
+              <label><input type="radio" name="equipo_funciona" value="no"> No (Queda en Taller)</label>
+            </div>
+          </div>
+          <label class="campo"><span>Nombre del Técnico</span><input class="control" data-campo="profesional"></label>
+          <label class="campo"><span>Usuario que recibe</span><input class="control" data-campo="recibido_por"></label>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <aside class="vista">
+    <div class="vista-cabecera">
+      <span id="estado-preview">Vista previa del Reporte</span>
+    </div>
+  </aside>
+</main>
+</body>
+</html>
